@@ -1,7 +1,4 @@
 import os
-import sqlalchemy
-from alembic import op
-from models import *
 
 
 def setup_db():
