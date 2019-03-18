@@ -17,8 +17,15 @@ depends_on = None
 
 
 def upgrade():
-    pass
+    op.create_table(
+        'yarn',
+        sa.Column('id', sa.Integer, primary_key=True),
+        sa.Column('name', sa.String(50), nullable=False, unique=True),
+        sa.Column('superwash', sa.Boolean),
+        sa.Column('yardage', sa.Integer),
+        sa.Column('notes', sa.String(100)),
+    )
 
 
 def downgrade():
-    pass
+    op.drop_table('yarn')
