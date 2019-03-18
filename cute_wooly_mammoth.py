@@ -1,7 +1,7 @@
 import os
-from sqlalchemy import create_engine
+import sqlalchemy
+from alembic import op
 from models import *
-
 
 
 def setup_db():
