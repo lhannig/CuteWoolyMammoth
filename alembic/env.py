@@ -1,4 +1,5 @@
 from __future__ import with_statement
+import os, sys
 
 from logging.config import fileConfig
 from sqlalchemy import engine_from_config
@@ -19,6 +20,8 @@ fileConfig(config.config_file_name)
 # add your model's MetaData object here
 # for 'autogenerate' support
 # target_metadata = mymodel.Base.metadata
+
+sys.path.append(os.getcwd())
 from models import Base
 target_metadata = Base.metadata
 
