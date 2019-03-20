@@ -10,6 +10,10 @@ yarn_materials_table = Table('association', Base.metadata,
                             Column('material_id', Integer, ForeignKey('materials.id'))
                             )
 
+yarn_shops_table = Table('yarn_shop_association', Base.metadata,
+                         Column('yarn_id', Integer, ForeignKey('yarns.id')),
+                         Column('yarnshop_id', Integer, ForeignKey('yarnshops.id')))
+
 class Yarn(Base):
     __tablename__ = 'yarns'
 
@@ -27,8 +31,12 @@ class Yarn(Base):
     wash = relationship('Wash', back_populates='yarns_wash')
     weight_id = Column(Integer, ForeignKey('weight.id'))
     weight = relationship('Weight', back_populates='yarns_weight')
-    materials = relationship('Material', secondary=yarn_materials_table, back_populates='yarn_materials')
     colorways = relationship('Colorway', backref='yarns')
+
+    materials = relationship('Material', secondary=yarn_materials_table, back_populates='yarn_materials')
+    yarnshops = relationship('Yarnshop', secondary=yarn_shops_table, back_populates='yarn_yarnshops')
+
+
 
 
 
@@ -81,3 +89,14 @@ class Colorway(Base):
     quantity = Column(Integer, default=0)
     notes = Column(String(100))
     yarn_id = Column(Integer, ForeignKey('yarn.id', ondelete='CASCADE', onupdate='CASCADE'))
+
+
+class Yarnshop(Base):
+    __tablename__='yarnshops'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), unique=True, nullable=False)
+    purchased_at = Column(Boolean, default=False)
+    notes = Column(String(100))
+
+    yarn_yarnshops = relationship('Yarn', secondary=yarn_shops_table, back_populates='yarnshops')
