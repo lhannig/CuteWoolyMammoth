@@ -22,7 +22,8 @@ fileConfig(config.config_file_name)
 # target_metadata = mymodel.Base.metadata
 
 sys.path.append(os.getcwd())
-import models
+from db import models
+
 # from models import Base
 target_metadata = models.Base.metadata
 
