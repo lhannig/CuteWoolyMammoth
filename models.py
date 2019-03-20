@@ -14,6 +14,10 @@ yarn_shops_table = Table('yarn_shop_association', Base.metadata,
                          Column('yarn_id', Integer, ForeignKey('yarns.id')),
                          Column('yarnshop_id', Integer, ForeignKey('yarnshops.id')))
 
+yarn_swatch_table = Table('yarn_swatch_association', Base.metadata,
+                          Column('yarn_id', Integer, ForeignKey('yarns.id')),
+                          Column('swatch_id', Integer, ForeignKey('swatches.id')))
+
 class Yarn(Base):
     __tablename__ = 'yarns'
 
@@ -35,10 +39,7 @@ class Yarn(Base):
 
     materials = relationship('Material', secondary=yarn_materials_table, back_populates='yarn_materials')
     yarnshops = relationship('Yarnshop', secondary=yarn_shops_table, back_populates='yarn_yarnshops')
-
-
-
-
+    yarn_swatches = relationship('Swatch', secondary=yarn_swatch_table, back_populates='yarns_swatch')
 
 
 class Manufacturer(Base):
@@ -100,3 +101,27 @@ class Yarnshop(Base):
     notes = Column(String(100))
 
     yarn_yarnshops = relationship('Yarn', secondary=yarn_shops_table, back_populates='yarnshops')
+
+
+class Needlesize(Base):
+    __tablename__='needlesizes'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(25), unique=True, nullable=False)
+
+    swatches = relationship('Swatch', back_populates='needlesizes')
+
+class Swatch(Base):
+    __tablename__='swatches'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), unique=True, nullable=False)
+    n_rows = Column(Integer)
+    n_stitches = Column(Integer)
+    n_rows_washed = Column(Integer)
+    n_stiches_washed = Column(Integer)
+    notes = Column(String(100))
+
+    needlesize_id = Column(Integer, ForeignKey('needlesizes.id'))
+    needlesizes = relationship('Needlesize', back_populates='swatches')
+    yarns_swatch = relationship('Yarn', secondary='yarn_swatch_table', back_populates='yarn_swatches')
