@@ -18,6 +18,15 @@ yarn_swatch_table = Table('yarn_swatch_association', Base.metadata,
                           Column('yarn_id', Integer, ForeignKey('yarns.id')),
                           Column('swatch_id', Integer, ForeignKey('swatches.id')))
 
+yarns_objectideas_table = Table('yarns_objectideas_association', Base.metadata,
+                                Column('yarn.id', Integer, ForeignKey('yarns.id')),
+                                Column('objectideas.id', Integer, ForeignKey('objectideas.id'))
+                                )
+
+colors_objectideas_table = Table('colorways_objectideas_association', Base.metadata,
+                                 Column('colorway_id', Integer, ForeignKey('colorways.id')),
+                                 Column('objectidea_id', Integer, ForeignKey('objectideas.id')))
+
 class Yarn(Base):
     __tablename__ = 'yarns'
 
@@ -40,6 +49,7 @@ class Yarn(Base):
     materials = relationship('Material', secondary=yarn_materials_table, back_populates='yarn_materials')
     yarnshops = relationship('Yarnshop', secondary=yarn_shops_table, back_populates='yarn_yarnshops')
     yarn_swatches = relationship('Swatch', secondary=yarn_swatch_table, back_populates='yarns_swatch')
+    yarn_objectideas = relationship('Objectidea', secondary=yarns_objectideas_table, back_populates='yarns_objectidea')
 
 
 class Manufacturer(Base):
@@ -69,6 +79,7 @@ class Weight(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(25), unique=True, nullable=False)
     yarns_weight = relationship('Yarn', back_populates='weight')
+    weight_objectideas = relationship('Objectidea', back_populates='weights_objectideas')
 
 
 class Material(Base):
@@ -90,6 +101,8 @@ class Colorway(Base):
     quantity = Column(Integer, default=0)
     notes = Column(String(100))
     yarn_id = Column(Integer, ForeignKey('yarn.id', ondelete='CASCADE', onupdate='CASCADE'))
+
+    color_objectideas = relationship('Objectidea', secondary=colors_objectideas_table, back_populates='colors_objectidea')
 
 
 class Yarnshop(Base):
@@ -125,3 +138,21 @@ class Swatch(Base):
     needlesize_id = Column(Integer, ForeignKey('needlesizes.id'))
     needlesizes = relationship('Needlesize', back_populates='swatches')
     yarns_swatch = relationship('Yarn', secondary='yarn_swatch_table', back_populates='yarn_swatches')
+
+
+class Objectidea(Base):
+    __tablename__='objectideas'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100), unique=True, nullable=False)
+    link = Column(String)
+    notes = Column(String(200))
+    yardage_needed = Column(Integer, nullable=True)
+    skeins_needed = Column(Integer, nullable=True)
+
+    weight_id = Column(Integer, ForeignKey('weights.id'))
+    weights_objectideas = relationship('Weight', back_populates='weight_objectideas')
+
+    yarns_objectidea = relationship('Yarn', secondary=yarns_objectideas_table, back_populates='yarn_objectideas')
+    colors_objectidea = relationship('Colorway', secondary=colors_objectideas_table, back_populates='color_objectideas')
+
