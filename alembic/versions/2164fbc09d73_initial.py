@@ -1,8 +1,8 @@
-"""added needlesizes and swatches
+"""initial
 
-Revision ID: 94333af3aa21
-Revises: 68f48c09d3e6
-Create Date: 2019-03-20 16:14:38.456605
+Revision ID: 2164fbc09d73
+Revises: 
+Create Date: 2019-03-20 18:24:16.553347
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '94333af3aa21'
-down_revision = '68f48c09d3e6'
+revision = '2164fbc09d73'
+down_revision = None
 branch_labels = None
 depends_on = None
 
