@@ -1,9 +1,9 @@
 import os
 
+from db import connections
 
 if __name__ == "__main__":
 
-
-    setup_db()
+    session = connections.create_or_connect()
 
 

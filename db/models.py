@@ -134,7 +134,7 @@ class Needlesize(Base):
     name = Column(String(25), unique=True, nullable=False)
 
     swatches = relationship('Swatch', back_populates='needlesizes')
-    needlesize_works = relationship('WorkInProgress', back_populates='work_needlesizes')
+    needlesize_works = relationship('WorkInProgress', secondary=work_needlesize_table ,back_populates='work_needlesizes')
 
 class Swatch(Base):
     __tablename__ = 'swatches'
@@ -164,11 +164,11 @@ class Projectidea(Base):
     skeins_needed = Column(Integer, nullable=True)
 
     weight_id = Column(Integer, ForeignKey('weights.id'))
-    weights_projectdeas = relationship('Weight', back_populates='weight_projectideas')
+    weights_projectideas = relationship('Weight', back_populates='weight_projectideas')
     works_in_progress = relationship('WorkInProgress', back_populates='projectidea_work')
 
-    yarns_objectidea = relationship('Yarn', secondary=yarns_projectideas_table, back_populates='yarn_projectideas')
-    colors_objectidea = relationship('Colorway', secondary=colors_projectideas_table, back_populates='color_oprojectideas')
+    yarns_projectidea = relationship('Yarn', secondary=yarns_projectideas_table, back_populates='yarn_projectideas')
+    colors_projectidea = relationship('Colorway', secondary=colors_projectideas_table, back_populates='color_oprojectideas')
 
 
 class WorkInProgress(Base):
