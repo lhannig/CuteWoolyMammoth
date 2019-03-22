@@ -149,7 +149,7 @@ class Swatch(Base):
 
     needlesize_id = Column(Integer, ForeignKey('needlesizes.id'))
     needlesizes = relationship('Needlesize', back_populates='swatches')
-    yarns_swatch = relationship('Yarn', secondary='yarn_swatch_table', back_populates='yarn_swatches')
+    yarns_swatch = relationship('Yarn', secondary=yarn_swatch_table, back_populates='yarn_swatches')
 
 
 
@@ -168,7 +168,7 @@ class Projectidea(Base):
     works_in_progress = relationship('WorkInProgress', back_populates='projectidea_work')
 
     yarns_projectidea = relationship('Yarn', secondary=yarns_projectideas_table, back_populates='yarn_projectideas')
-    colors_projectidea = relationship('Colorway', secondary=colors_projectideas_table, back_populates='color_oprojectideas')
+    colors_projectidea = relationship('Colorway', secondary=colors_projectideas_table, back_populates='color_projectideas')
 
 
 class WorkInProgress(Base):

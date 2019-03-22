@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils.functions import database_exists
 import logging
-from db import Session
+from app import Session
 from .models import Base, Wash
 
 db_url = 'sqlite:///MammothDB.db'
