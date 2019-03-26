@@ -7,29 +7,31 @@ from app import Session
 from .models import Base, Wash
 
 db_url = 'sqlite:///MammothDB.db'
+engine = create_engine(db_url)
 
 
 
 logging.basicConfig()
 logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
-def create_or_connect():
-    """check if db exists, if not create new"""
-
-    engine = create_engine(db_url)
+def check_database_exists():
+    """check if db exists"""
 
     if database_exists(db_url):
-        session = make_session(engine)
-
+        return True
     else:
-        setup(engine)
-        session = make_session(engine)
-        insert_initial_data(session)
+        return False
+
+def create_db(session):
+    """check if db exists, if not create new"""
+
+    setup()
+    insert_initial_data(session)
+
+    return session
 
 
-
-
-def setup(engine):
+def setup():
     """create a new database"""
 
     my_metadata = Base.metadata
@@ -41,7 +43,10 @@ def setup(engine):
     command.stamp(alembic_cfg, 'head')
 
 
-def make_session(engine):
+
+
+
+def make_session():
     """establishes a connection to the db"""
 
     Session.configure(bind=engine)
